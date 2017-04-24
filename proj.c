@@ -26,7 +26,7 @@ int NAirports;          /*number of airports -> output*/
 int Airports[];
 
 /*  Headers  */
-
+Pconnection newConnection (int city1, int city2, int cost);
 
 
 int main (){
@@ -40,9 +40,9 @@ int main (){
 
     scanf("%d",&NCities);
     scanf("%d",&NmaxAirports);
-        int Airports[NCities];
+        int Airports[NCities]; /*vetor dos aeroportos de cada cidade*/
         int VecSize = ((NmaxAirports - 1) * NmaxAirports)/2;
-        int AirCosts[VecSize];
+        Pconnection AirCosts[VecSize]; /*vetor dos custos de construção de aeroportos entre duas cidades*/
 
     for (i = 0; i < NmaxAirports; i++){
         scanf("%d %d", &city1, &cost);
@@ -51,7 +51,7 @@ int main (){
     }
 
     scanf("%d",&NmaxRoads);
-        int RoadCosts[NmaxRoads];
+        Pconnection RoadCosts[NmaxRoads];
 
     for (i = 0; i < NmaxRoads; i++){
         scanf("%d %d %d", &city1, &city2, &cost);
@@ -59,7 +59,7 @@ int main (){
             RoadCosts[i] = new;
 
 
-        /* city1-> cidade1  /   city2-> cidade2   /   cost->custo de construção da estrada*/
+        /* city1-> cidade1  /   city2-> cidade2   /   cost->custo de construção da estrada entre city1 e city2*/
     }
 
 
