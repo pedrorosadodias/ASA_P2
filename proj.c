@@ -9,9 +9,11 @@
 
 
 /*  struct of a node  */
-typedef struct city {
-    
-} *Pcity;
+typedef struct connection {
+    int city1;
+    int city2;
+    int cost;
+} *Pconnection;
 
 
 static Pcity *graph;    /*pointer for the table of cities*/
@@ -38,19 +40,25 @@ int main (){
 
     scanf("%d",&NCities);
     scanf("%d",&NmaxAirports);
-        int Airports[NmaxAirports];
+        int Airports[NCities];
         int VecSize = ((NmaxAirports - 1) * NmaxAirports)/2;
         int AirCosts[VecSize];
 
     for (i = 0; i < NmaxAirports; i++){
         scanf("%d %d", &city1, &cost);
+        Airports[city1 - 1] = cost;
         /* city1-> aeroporto na cidade city1   /   cost->custo de construção do aeroporto na cidade city1*/
     }
 
     scanf("%d",&NmaxRoads);
+        int RoadCosts[NmaxRoads];
 
     for (i = 0; i < NmaxRoads; i++){
         scanf("%d %d %d", &city1, &city2, &cost);
+            Pconnection new = newConnection(city1, city2, cost);
+            RoadCosts[i] = new;
+
+
         /* city1-> cidade1  /   city2-> cidade2   /   cost->custo de construção da estrada*/
     }
 
@@ -104,12 +112,10 @@ void insertPhoto(int source, int destiny){
 
 
 /*  Create new photo  */
-Pphoto newPhoto (int photo){
-    Pphoto new = (Pphoto) malloc(sizeof(struct photo));
-    new->photoNumber = photo;
-    new->state = NOT_VISITED;
-    new->startTime = 0;
-    new->endTime = 0;
-    new->next = NULL;
+Pconnection newConnection (int city1, int city2, int cost){
+    Pconnection new = (Pconnection) malloc(sizeof(struct connection));
+    new->city1 = city1;
+    new->city2 = city2;
+    new->cost = cost;
     return new;
 }
