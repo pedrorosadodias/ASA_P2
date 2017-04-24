@@ -10,11 +10,7 @@
 
 /*  struct of a node  */
 typedef struct city {
-    int photoNumber;
-    int state;
-    int startTime;
-    int endTime;
-    struct photo *next;
+    
 } *Pcity;
 
 
@@ -25,7 +21,7 @@ int NmaxRoads;          /*number max of roads*/
 int TotalCost;          /*total cost*/
 int NRoads;             /*number of roads -> output*/
 int NAirports;          /*number of airports -> output*/
-
+int Airports[];
 
 /*  Headers  */
 
@@ -37,10 +33,14 @@ int main (){
     NAirports = 0;
     NRoads = 0;
 
+
     int i, city1, city2, cost;
 
     scanf("%d",&NCities);
     scanf("%d",&NmaxAirports);
+        int Airports[NmaxAirports];
+        int VecSize = ((NmaxAirports - 1) * NmaxAirports)/2;
+        int AirCosts[VecSize];
 
     for (i = 0; i < NmaxAirports; i++){
         scanf("%d %d", &city1, &cost);
