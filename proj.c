@@ -41,6 +41,10 @@ int main (){
     int i, city1, city2, cost;
 
     scanf("%d",&NCities);
+
+    int p[Ncities + 1];
+    int rank[Ncities + 1];
+
     scanf("%d",&NmaxAirports);
 
     Pconnection *airportsData = (Pconnection*) malloc(sizeof(struct connection) * NmaxAirports);
@@ -86,6 +90,58 @@ int main (){
 
     return 0;
 }
+
+
+/*KRUSKAL*/
+Pconnection* Kruskal(Pconnection* graph){
+    for(i = 0; i < Ncities; i++){
+        makeSet(i);
+
+    
+    for(i = 0; i<NmaxAirports + NmaxRoads; i++){
+        int city1, city2;
+        city1 = graph[i]->city1;
+        city2 = graph[i]->city2;
+        cost = graph[i]->cost;
+        if (findSet(city1) != findSet(city2)){
+            if(city1 == BASE){ NAirports++; }
+            else{ NRoads++; }
+            TotalCost = cost;
+            insertData(graph[i]);
+            Union(city1, city2);
+        }
+    }
+
+    }
+}
+
+void makeSet(int vertix){
+    p[vertix] = vertix;
+    rank[vertix] = 0;
+}
+
+int findSet(int vertix){
+    if (vertix != p[vertix])
+        p[vertix] = findSet(p[vertix]);
+    return p[vertix];
+}
+
+void Union(int vertix1, int vertix2){
+    Link(findSet(vertix1), findSet(vertix2));
+}
+
+void Link(int vertix1, int vertix2){
+    if (rank[vertix1] > rank[vertix2])
+        p[vertix2] = vertix1;
+    else{
+        p[vertix1] = vertix2;
+        if(rank[vertix1] = rank[vertix2])
+            rank[vertix2]++;
+    }
+
+}
+
+
 
 
 int cmpfunction(const void* a, const void* b){
