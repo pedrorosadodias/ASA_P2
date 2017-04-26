@@ -26,6 +26,11 @@ int TotalCost;          /*total cost*/
 /*  Headers  */
 Pconnection newConnection (int city1, int city2, int cost);
 int cmpfunction(const void* a, const void* b);
+void Kruskal(Pconnection* graph, int V, int E);
+void makeSet(int vertix, int p[], int rank[]);
+int findSet(int vertix, int p[], int rank[]);
+void Union(int vertix1, int vertix2, int p[], int rank[]);
+void Link(int vertix1, int vertix2, int p[], int rank[]);
 
 
 int main (){
@@ -40,10 +45,6 @@ int main (){
     int i, city1, city2, cost;
 
     scanf("%d",&NCities);
-
-    int p[Ncities + 1];
-    int rank[Ncities + 1];
-
     scanf("%d",&NmaxAirports);
 
     Pconnection *airportsData = (Pconnection*) malloc(sizeof(struct connection) * NmaxAirports);
@@ -87,7 +88,7 @@ int main (){
         printf("city1: %d city2: %d cost: %d\n", data[i]->city1, data[i]->city2, data[i]->cost);
     }
 
-    Kruskal(data, Ncities, NmaxAirports + NmaxRoads);
+    Kruskal(data, NCities, NmaxAirports + NmaxRoads);
 
     return 0;
 }
@@ -95,58 +96,63 @@ int main (){
 
 /*KRUSKAL*/
 void Kruskal(Pconnection* graph, int V, int E){
+
+	int rank[V+1];
+    int p[V+1];
+    int i;
+
     for(i = 0; i < V; i++){
-        makeSet(i);
+        makeSet(i, p, rank);
     }
     
     Pconnection* final = (Pconnection*) malloc(sizeof(struct connection) * V);
 
     for(i = 0; i < E; i++){
-        int city1, city2;
+        int city1, city2, cost;
         city1 = graph[i]->city1;
         city2 = graph[i]->city2;
         cost = graph[i]->cost;
 
-        if (findSet(city1) != findSet(city2)){
+        if (findSet(city1, p, rank) != findSet(city2, p, rank)){
             if(city1 == BASE){ 
                 NAirports++; }
             else{ 
                 NRoads++; }
             TotalCost += cost;
             final[i] = graph[i];
-            Union(city1, city2);
+            Union(city1, city2, p, rank);
         }
     }
 
-    printf("%d\n%d %d\n", TotalCost, NAirports, Nroads);
+    printf("%d\n%d %d\n", TotalCost, NAirports, NRoads);
 
 }
 
 
 
-void makeSet(int vertix){
+void makeSet(int vertix, int p[], int rank[]){
     p[vertix] = vertix;
     rank[vertix] = 0;
 }
 
-int findSet(int vertix){
+int findSet(int vertix, int p[], int rank[]){
     if (vertix != p[vertix])
-        p[vertix] = findSet(p[vertix]);
+        p[vertix] = findSet(p[vertix], p, rank);
     return p[vertix];
 }
 
 
-void Union(int vertix1, int vertix2){
-    Link(findSet(vertix1), findSet(vertix2));
+void Union(int vertix1, int vertix2, int p[], int rank[]){
+    Link(findSet(vertix1, p, rank), findSet(vertix2, p, rank), p, rank);
 }
 
 
-void Link(int vertix1, int vertix2){
+void Link(int vertix1, int vertix2, int p[], int rank[]){
     if (rank[vertix1] > rank[vertix2])
         p[vertix2] = vertix1;
     else{
         p[vertix1] = vertix2;
-        if(rank[vertix1] = rank[vertix2])
+        if(rank[vertix1] == rank[vertix2])
             rank[vertix2]++;
     }
 
