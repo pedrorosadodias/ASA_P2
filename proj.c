@@ -28,7 +28,6 @@ Pconnection newConnection (int city1, int city2, int cost);
 int cmpfunction(const void* a, const void* b);
 
 
-
 int main (){
 
     /*  Initializations */
@@ -88,32 +87,42 @@ int main (){
         printf("city1: %d city2: %d cost: %d\n", data[i]->city1, data[i]->city2, data[i]->cost);
     }
 
+    Kruskal(data, Ncities, NmaxAirports + NmaxRoads);
+
     return 0;
 }
 
 
 /*KRUSKAL*/
-Pconnection* Kruskal(Pconnection* graph){
-    for(i = 0; i < Ncities; i++){
+void Kruskal(Pconnection* graph, int V, int E){
+    for(i = 0; i < V; i++){
         makeSet(i);
-
+    }
     
-    for(i = 0; i<NmaxAirports + NmaxRoads; i++){
+    Pconnection* final = (Pconnection*) malloc(sizeof(struct connection) * V);
+
+    for(i = 0; i < E; i++){
         int city1, city2;
         city1 = graph[i]->city1;
         city2 = graph[i]->city2;
         cost = graph[i]->cost;
+
         if (findSet(city1) != findSet(city2)){
-            if(city1 == BASE){ NAirports++; }
-            else{ NRoads++; }
-            TotalCost = cost;
-            insertData(graph[i]);
+            if(city1 == BASE){ 
+                NAirports++; }
+            else{ 
+                NRoads++; }
+            TotalCost += cost;
+            final[i] = graph[i];
             Union(city1, city2);
         }
     }
 
-    }
+    printf("%d\n%d %d\n", TotalCost, NAirports, Nroads);
+
 }
+
+
 
 void makeSet(int vertix){
     p[vertix] = vertix;
@@ -126,9 +135,11 @@ int findSet(int vertix){
     return p[vertix];
 }
 
+
 void Union(int vertix1, int vertix2){
     Link(findSet(vertix1), findSet(vertix2));
 }
+
 
 void Link(int vertix1, int vertix2){
     if (rank[vertix1] > rank[vertix2])
@@ -142,8 +153,6 @@ void Link(int vertix1, int vertix2){
 }
 
 
-
-
 int cmpfunction(const void* a, const void* b){
 
 	const Pconnection p1 = *(const Pconnection *)a;
@@ -151,8 +160,6 @@ int cmpfunction(const void* a, const void* b){
 
 	return (p1->cost - p2->cost);
 }
-
-
 
 /*  Create new connection  */
 Pconnection newConnection (int city1, int city2, int cost){
@@ -162,3 +169,5 @@ Pconnection newConnection (int city1, int city2, int cost){
     new->cost = cost;
     return new;
 }
+
+
