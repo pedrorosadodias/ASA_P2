@@ -4,12 +4,15 @@
 * @autor Pedro Dias 84752                   *
 ********************************************/
 
+
 #include <stdio.h>
 #include <stdlib.h>
+
 
 #define BASE 0
 #define OK 0
 #define INSUFICIENTE 1
+
 
 /*  struct of a connection  */
 typedef struct connection {
@@ -39,7 +42,6 @@ void Link(int vertix1, int vertix2, int p[], int rank[], int flagI);
 void deleteData(int NmaxAirports, int NmaxRoads, Pconnection *airportsData,Pconnection *data, Pconnection *test);
 
 
-
 int main (){
 
     int NmaxAirports;       /*number max of airports*/
@@ -65,7 +67,6 @@ int main (){
 
     scanf("%d",&NmaxRoads);
     Pconnection *data = (Pconnection*) malloc(sizeof(struct connection) * (NmaxAirports + NmaxRoads));
-
     Pconnection *test = (Pconnection*) malloc(sizeof(struct connection) * NmaxRoads);
 
     for (i = 0; i < NmaxRoads; i++){
@@ -87,29 +88,28 @@ int main (){
     custo = TotalCost;
     teste = Flag;
 
-    if (NmaxAirports > 0){
-        Kruskal(data, NCities + 1, NmaxAirports + NmaxRoads, BASE);
-    }
+    if (NmaxAirports > 0){Kruskal(data, NCities + 1, NmaxAirports + NmaxRoads, BASE);}
 
     if ((custo == TotalCost) && (teste != INSUFICIENTE)){
         printf("%d\n%d %d\n", custo, Naeroportos, Nestradas);
     }
+
     else{
         if((Flag != INSUFICIENTE) && (NAirports > 1)){
             printf("%d\n%d %d\n", TotalCost, NAirports, NRoads);
         }
+
         else if ((Flag != INSUFICIENTE) && (NAirports == 1)){
             TotalCost -= airportSingleCost;
             NAirports--;
             printf("%d\n%d %d\n", TotalCost, NAirports, NRoads);
         }
-        else{puts("Insuficiente");}
+        else {puts("Insuficiente");}
     }
 
     deleteData(NmaxAirports, NmaxRoads, airportsData, data, test);
     return 0;
 }
-
 
 
 /*  Create new connection  */
@@ -122,7 +122,6 @@ Pconnection newConnection (int city1, int city2, int cost){
 }
 
 
-
 /*  Delete all data created */
 void deleteData(int NmaxAirports, int NmaxRoads, Pconnection *airportsData,Pconnection *data, Pconnection *test){
     int i;
@@ -133,7 +132,6 @@ void deleteData(int NmaxAirports, int NmaxRoads, Pconnection *airportsData,Pconn
     free(test);
     free(airportsData);
 }
-
 
 
 /*  Kruskal Algorithm */
@@ -169,11 +167,9 @@ void Kruskal(Pconnection* graph, int V, int E, int flagI){
 
             if(city1 == BASE){
                 NAirports++;
-                airportSingleCost = cost;
+                airportSingleCost = cost;   /*save the cost of building just one airport*/
             }
-            else{
-                NRoads++;
-            }
+            else{NRoads++;}
 
             TotalCost += cost;
             Union(city1, city2, p, rank, flagI);
@@ -191,13 +187,14 @@ void Kruskal(Pconnection* graph, int V, int E, int flagI){
 }
 
 
-
+/*visit each city*/
 void visit(int city1, int city2, int verify[], int flagI){
     int visited = 1;
     if (flagI == BASE){
         verify[city1] = visited;
         verify[city2] = visited;
     }
+
     else{
         verify[city1 - flagI] = visited;
         verify[city2 - flagI] = visited;
@@ -238,7 +235,7 @@ void Link(int vertix1, int vertix2, int p[], int rank[], int flagI){
 }
 
 
-
+/*comparison function using on qsort*/
 int cmpfunction(const void* a, const void* b){
 
 	const Pconnection p1 = *(const Pconnection *)a;
