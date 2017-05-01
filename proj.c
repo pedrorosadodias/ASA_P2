@@ -88,7 +88,7 @@ int main (){
     custo = TotalCost;
     teste = Flag;
 
-    if (NmaxAirports > 0){Kruskal(data, NCities + 1, NmaxAirports + NmaxRoads, BASE);}
+    if (NmaxAirports > 1){Kruskal(data, NCities + 1, NmaxAirports + NmaxRoads, BASE);}
 
     if ((custo == TotalCost) && (teste != INSUFICIENTE)){
         printf("%d\n%d %d\n", custo, Naeroportos, Nestradas);
