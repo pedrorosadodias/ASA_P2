@@ -150,15 +150,19 @@ Insuficiente
 
 
 
-#### input 4
+#### input 5
 4
 
 0
 
-4 
+4
+
 1 2 1
+
 2 3 2 
+
 3 4 1
+
 4 1 1
 
 #### output 5
