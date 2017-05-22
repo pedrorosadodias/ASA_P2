@@ -68,6 +68,7 @@ Todas as linhas do output terminam com o caracter de fim de linha.
 
 #### output 1
 5 
+
 2 2
 
 
@@ -117,6 +118,7 @@ Insuficiente
 
 #### output 3
 14 
+
 3 1
 
 
@@ -146,6 +148,7 @@ Insuficiente
 
 #### output 4
 5 
+
 0 3
 
 
@@ -166,5 +169,6 @@ Insuficiente
 4 1 1
 
 #### output 5
-3 
+3
+
 0 3
